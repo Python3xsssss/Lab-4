@@ -3,5 +3,6 @@
 #define _MATH_EXP_H_
 
 #include <iostream>
+#include "List.h"
 
 #endif
