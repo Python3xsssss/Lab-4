@@ -5,6 +5,7 @@
 #include <iostream>
 
 using std::size_t;
+using std::ostream;
 
 template <typename ValType>
 class List
@@ -33,10 +34,12 @@ public:
 		Iterator& operator= (const Iterator&);
 		bool operator==(const Iterator& it) const { return (cur_node == it.cur_node); }
 		bool operator!=(const Iterator& it) const { return (cur_node != it.cur_node); }
-		ValType operator*() const;
+		ValType& operator*() const;
 		Node* operator->() const { return cur_node; }
 		Iterator operator++();
 		Iterator operator++(int);
+
+		friend class List;
 	};
 
 	Iterator begin() const;
@@ -46,13 +49,14 @@ public:
 	List(size_t);
 	List(const List&);
 	List(size_t, size_t);
+
 	~List();
 
 	void Push_top(ValType);
 	void Push_bot(ValType);
 	ValType Pop_top();
 	ValType Pop_bot();
-	void Insert(size_t, ValType);
+	void Insert(int, ValType);
 	void Delete(size_t);
 	void Set(size_t, ValType);
 	ValType Get(size_t);
@@ -64,6 +68,9 @@ public:
 
 	bool IsLooped();
 	bool Reverse();
+
+	//template <typename ValType>
+	//friend ostream& operator<<(ostream& out, List<ValType>& ls);
 };
 
 template <typename ValType>
@@ -76,7 +83,7 @@ typename List<ValType>::Iterator& List<ValType>::Iterator::operator=(const Itera
 }
 
 template <typename ValType>
-typename ValType List<ValType>::Iterator::operator*() const
+typename ValType& List<ValType>::Iterator::operator*() const
 {
 	if (cur_node)
 		return cur_node->data;
@@ -297,13 +304,13 @@ ValType List<ValType>::Pop_bot()
 }
 
 template <typename ValType>
-void List<ValType>::Insert(size_t index, ValType data)
+void List<ValType>::Insert(int index, ValType data)
 {
 	if (index >= size)
 		throw "Error: incorrect index";
 
 	Node* tmp = top;
-	for (size_t i = 1; i <= index - 1; i++)
+	for (int i = 1; i <= index - 1; i++)
 		tmp = tmp->next;
 
 	Node* following = tmp->next;
@@ -427,4 +434,13 @@ bool List<ValType>::Reverse()
 	return (!ptr3);
 }
 
+
+/*template <typename ValType>
+ostream& operator<<(ostream& out, List<ValType>& ls)
+{
+	for (List<ValType>::Iterator it = ls.begin(); it != ls.end(); it++)
+		out << *it << ' ';
+
+	return out;
+}*/
 #endif // !_LIST_H_
