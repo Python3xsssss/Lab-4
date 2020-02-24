@@ -115,5 +115,3 @@ TEST(List, can_get_size_of_list)
 	List<int> ls(2);
 	EXPECT_EQ(2, ls.GetSize());
 }
-
-

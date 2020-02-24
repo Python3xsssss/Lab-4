@@ -11,12 +11,12 @@ int main()
 {
 	srand(time(NULL));
 	cout << "Enter the polynomial 1: " << endl;
-	string str;
-	getline(cin, str);
-	Polynomial pol1(str);
+	string str1, str2;
+	getline(cin, str1);
+	Polynomial pol1(str1);
 	cout << "Enter the polynomial 2: " << endl;
-	getline(cin, str);
-	Polynomial pol2(str);
+	getline(cin, str2);
+	Polynomial pol2(str2);
 	cout << "Enter random number: " << endl;
 	double number;
 	cin >> number;
@@ -26,5 +26,10 @@ int main()
 	cout << "polynomial2 * number = " << pol1 + number << endl;
 	cout << "polynomial1 + polynomial2 = " << pol1 + pol2 << endl;
 	cout << "polynomial1 * polynomial2 = " << pol1 * pol2 << endl;
+
+	cout << "Enter the value of x: " << endl;
+	cin >> number;
+	cout << str1 << " = " << pol1.Calculate(number) << endl;
+	cout << str2 << " = " << pol2.Calculate(number) << endl;
 	_getch();
 }

@@ -59,6 +59,8 @@ public:
 	void Set_coeff(double coeff, size_t power);
 	double Get_coeff(size_t power);
 
+	double Calculate(double var);
+
 
 	friend ostream& operator<<(ostream& out, Monomial& mon)
 	{
@@ -430,5 +432,14 @@ double Polynomial::Get_coeff(size_t power)
 		return elements[index].coeff;
 	else
 		throw "Error: the polynomial doesn't contain an element with specified power";
+}
+
+double Polynomial::Calculate(double var)
+{
+	double result = 0;
+	for (List<Monomial>::Iterator it = elements.begin(); it != elements.end(); it++)
+		result += (*it).coeff * pow(var, (*it).power);
+
+	return result;
 }
 #endif
