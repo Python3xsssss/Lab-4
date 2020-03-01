@@ -36,6 +36,7 @@ private:
 	List<Monomial> elements;
 	bool Find(size_t power, int& index);
 	void Insert(const Monomial& mon);
+	bool Find_old(size_t power, int& index);
 	void Delete(size_t power);
 	void Clear();
 
@@ -140,8 +141,26 @@ typename Polynomial::Monomial Polynomial::Monomial::operator*(const Monomial& mo
 	return tmp;
 }
 
-
 bool Polynomial::Find(size_t power, int& index)
+{
+	size_t i = 0;
+	int found_power = -1;
+	for (List<Monomial>::Iterator it = elements.begin(); it != elements.end(); it++)
+	{
+		found_power = (*it).power;
+		if (found_power <= power)
+			break;
+
+		i++;
+	}
+		
+	index = i;
+
+	return (found_power == power);
+}
+
+
+bool Polynomial::Find_old(size_t power, int& index)
 {
 	int down = 0, up = elements.GetSize(), mid;
 	bool is_found = false;
@@ -383,10 +402,40 @@ Polynomial Polynomial::operator*(const Monomial& mon)
 
 Polynomial Polynomial::operator+(const Polynomial& pol)
 {
-	Polynomial out(*this);
+	Polynomial out;
+	List<Monomial>::Iterator it_pol = pol.elements.begin(), it = elements.begin();
+	
+	while (it_pol != pol.elements.end() && it != elements.end())
+	{
+		size_t pol_power = (*it_pol).power, power = (*it).power;
+		if (pol_power > power)
+		{
+			out.elements.Push_top(*it_pol);
+			it_pol++;
+		}
+		else if (pol_power == power)
+		{
+			Monomial tmp((*it_pol).coeff + (*it).coeff, power);
+			out.elements.Push_top(tmp);
+			it_pol++;
+			it++;
+		}
+		else
+		{
+			out.elements.Push_top(*it);
+			it++;
+		}
+	}
 
-	for (List<Monomial>::Iterator it = pol.elements.begin(); it != pol.elements.end(); it++)
-		out.Insert(*it);
+	if (it_pol != pol.elements.end())
+		for (; it_pol != pol.elements.end(); it_pol++)
+			out.elements.Push_top(*it_pol);
+	else if (it != elements.end())
+		for (; it != pol.elements.end(); it++)
+			out.elements.Push_top(*it);
+	
+	out.elements.Reverse();
+
 	return out;
 }
 

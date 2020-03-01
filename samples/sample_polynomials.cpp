@@ -32,4 +32,7 @@ int main()
 	cout << str1 << " = " << pol1.Calculate(number) << endl;
 	cout << str2 << " = " << pol2.Calculate(number) << endl;
 	_getch();
+
+	//4x^9 + 3x^7 + 5x^3 + 3x^2 + 2x + 4
+	//2x^7 + 3x^6 + 2x^5 + 5x^4 + 2x^3 + 2x^2
 }
